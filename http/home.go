@@ -1,11 +1,16 @@
 package http
 
 import (
-	"fmt"
+	"github.com/Danioq/gghp/apps"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
-// HelloWorld return Hello World string
-func HelloWorld(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World")
+
+// Index return Hello World string
+func Index(w http.ResponseWriter, r *http.Request) {
+	q := mux.Vars(r)["q"]
+	response := apps.List[q]
+	response(w, r)
 }
