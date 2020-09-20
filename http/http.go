@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"time"
 )
 
 func clearScreen() {
@@ -16,10 +17,17 @@ func clearScreen() {
 
 // RunHTTPServer setups and runs the http server
 func RunHTTPServer() {
-	port := ":8080"
-	setupRouter()
+	handler := getHandler()
+	
+	s := &http.Server{
+		Addr:           "0.0.0.0:8080",
+		Handler:        handler,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
 
 	clearScreen()
-	fmt.Println("Listen on port", port)
-	log.Fatal(http.ListenAndServe(port, nil))
+	fmt.Println("Listen on ", s.Addr)
+	log.Fatal(s.ListenAndServe())
 }

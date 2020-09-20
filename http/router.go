@@ -1,8 +1,6 @@
 package http
 
 import (
-	"net/http"
-
 	"github.com/gorilla/mux"
 )
 
@@ -12,10 +10,12 @@ type router struct {
 
 func (router router) setupRoutes() {
 	router.client.HandleFunc("/", Index)
+	router.client.HandleFunc("/sensor/{name}", GetSensor)
+	router.client.HandleFunc("/sensor/{name}/{value}", AddSensor)
 }
 
-func setupRouter() {
+func getHandler() *mux.Router {
 	r := router{mux.NewRouter()}
 	r.setupRoutes()
-	http.Handle("/", r.client)
+	return r.client
 }
