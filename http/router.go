@@ -10,9 +10,8 @@ type router struct {
 	client *mux.Router
 }
 
-
 func (router router) setupRoutes() {
-	router.client.HandleFunc("/{q}", Index)
+	router.client.HandleFunc("/", Index)
 }
 
 func setupRouter() {
